@@ -1,0 +1,20 @@
+{
+  "name": "IssueManager",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "wasm-buildcss": "cross-env NODE_ENV=production postcss --verbose IssueManager.Client.Blazor.WASM/wwwroot/css/app.css -o IssueManager.Client.Blazor.WASM/wwwroot/css/app.min.css",
+    "server-buildcss": "cross-env NODE_ENV=production postcss --verbose IssueManager.Client.Blazor.Server/wwwroot/css/site.css -o IssueManager.Client.Blazor.Server/wwwroot/css/site.min.css"
+  },
+  "author": "Bimal Gharti Maagar <bimal@endpoint.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.3.2",
+    "postcss": "^8.3.6",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.2.7"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  }
+}
