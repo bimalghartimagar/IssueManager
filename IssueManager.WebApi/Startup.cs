@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+
+using IssueManager.Infra.Data.Context;
 
 namespace IssueManager.WebApi
 {
@@ -31,6 +34,10 @@ namespace IssueManager.WebApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IssueManager.WebApi", Version = "v1" });
+            });
+            services.AddDbContext<IssueManagerDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("IssueManagerConnection"));
             });
         }
 
