@@ -7,20 +7,14 @@
             <div class="heading">
                 <SearchBar />
             </div>
-            <div class="content">
+            <div class="content px-2">
                 <slot></slot>
             </div>
         </div>
     </div>
 </template>
 
-<script>
+<script setup>
 import Sidebar from "./Sidebar.vue"
 import SearchBar from "./SearchBar.vue"
-export default {
-    components: {
-        Sidebar,
-        SearchBar
-    }
-}
 </script>
