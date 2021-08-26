@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <DashboardLayout class="bg-gray-200">
     <TicketListWrapper />
   </DashboardLayout>
 </template>
