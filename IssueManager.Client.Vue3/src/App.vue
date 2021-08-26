@@ -1,16 +1,19 @@
 <template>
-  <DashboardLayout>Body</DashboardLayout>
+  <DashboardLayout>
+    <TicketListWrapper />
+  </DashboardLayout>
 </template>
 
 <script setup>
 import DashboardLayout from './components/layout/DashboardLayout.vue'
-
+import TicketListWrapper from './components/tickets/TicketListWrapper.vue';
 </script>
+
 <style>
 /* css debug */
-* {
-  /* outline: solid 0.25rem red; */
-}
+/* * {
+  outline: solid 0.25rem red;
+} */
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
