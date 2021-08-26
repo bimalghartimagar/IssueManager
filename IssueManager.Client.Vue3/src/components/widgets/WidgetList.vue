@@ -1,0 +1,29 @@
+<template>
+    <div class="grid grid-cols-3 gap-6 mt-8">
+        <div
+            class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold"
+        >
+            <ChatIcon class="h-20 w-20 text-blue-500" />{{data.open}} Opened
+        </div>
+        <div
+            class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold"
+        >
+            <CogIcon class="h-20 w-20 text-green-500" />{{data.assigned}} Assigned
+        </div>
+        <div
+            class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold"
+        >
+            <XCircleIcon class="h-20 w-20 text-red-500" />{{data.closed}} Closed
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { XCircleIcon, CogIcon, ChatIcon } from '@heroicons/vue/outline'
+defineProps({
+    data: {
+        type: Object,
+        required: true
+    }
+})
+</script>
