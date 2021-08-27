@@ -1,11 +1,26 @@
+@inject NavigationManager nvm
 <div class="felx flex-col font-sans">
     <div class="head-title p-10 text-3xl font-bold">Ticket Manager</div>
-    <NavLink href="/" custom v-slot="{isActive, navigate}" class="hover:no-underline text-white">
-        <div :class="isActive?'border-white bg-indigo-600':'border-indigo-500'"
-            class="p-3 m-0 text-xl cursor-pointer border-l-8 hover:bg-indigo-400">Home</div>
+    <NavLink href="" Match="NavLinkMatch.All" class="hover:no-underline text-white">
+        <div class="p-3 m-0 text-xl cursor-pointer border-l-8 hover:bg-indigo-400 @(isActive(""))">Home</div>
     </NavLink>
-    <NavLink href="/tickets" custom v-slot="{isActive, navigate}" class="hover:no-underline text-white">
-        <div :class="isActive?'border-white bg-indigo-600':'border-indigo-500'"
-            class="p-3 m-0 text-xl cursor-pointer border-l-8 hover:bg-indigo-400">Tickets</div>
+    <NavLink href="tickets" Match="NavLinkMatch.All" class="hover:no-underline text-white">
+        <div class="p-3 m-0 text-xl cursor-pointer border-l-8 hover:bg-indigo-400 @(isActive("tickets"))">Tickets</div>
     </NavLink>
 </div>
+
+@code {
+    public string activeClasses { get; set; }
+    public string isActive(string to)
+    {
+        if (to.Equals(string.Empty) && nvm.BaseUri.Equals(nvm.Uri))
+        {
+            return "border-white bg-indigo-600";
+        }
+        else if (!to.Equals(string.Empty) && nvm.Uri.EndsWith(to))
+        {
+            return "border-white bg-indigo-600";
+        }
+        return "border-indigo-500";
+    }
+}
