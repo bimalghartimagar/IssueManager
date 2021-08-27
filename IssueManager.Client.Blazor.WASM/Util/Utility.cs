@@ -1,0 +1,22 @@
+namespace IssueManager.Client.Blazor.WASM.Util
+{
+    public static class Utility
+    {
+        public static string GetStatusColor(string status)
+        {
+            if (status.Equals("open"))
+            {
+                return "bg-yellow-500";
+            }
+            else if (status.Equals("assigned"))
+            {
+                return "bg-green-500";
+            }
+            else if (status.Equals("closed"))
+            {
+                return "bg-red-500";
+            }
+            return "";
+        }
+    }
+}
