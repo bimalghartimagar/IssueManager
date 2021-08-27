@@ -1,7 +1,11 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+<IssueManager.Client.Blazor.WASM.Pages.widgets.WidgetList Data="@widgetData" />
 
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code {
+    public Dictionary<string, int> widgetData = new Dictionary<string, int>(){
+        { "open", 5},
+        { "assigned", 3},
+        { "closed", 15}
+    };
+}
