@@ -1,0 +1,16 @@
+@page "/tickets"
+@using Domain.Model
+@using ThirdParty.Api.Interface;
+@inject ITicketService TicketFetchService
+
+<IssueManager.Client.Blazor.WASM.Pages.tickets.TicketListWrapper tickets="@tickets" />
+
+@code {
+    List<Ticket> tickets = new List<Ticket>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        tickets = await TicketFetchService.GetTickets();
+        Console.WriteLine(tickets);
+    }
+}
