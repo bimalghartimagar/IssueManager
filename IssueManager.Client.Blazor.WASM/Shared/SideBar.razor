@@ -1,0 +1,11 @@
+<div class="felx flex-col font-sans">
+    <div class="head-title p-10 text-3xl font-bold">Ticket Manager</div>
+    <NavLink href="/" custom v-slot="{isActive, navigate}" class="hover:no-underline text-white">
+        <div :class="isActive?'border-white bg-indigo-600':'border-indigo-500'"
+            class="p-3 m-0 text-xl cursor-pointer border-l-8 hover:bg-indigo-400">Home</div>
+    </NavLink>
+    <NavLink href="/tickets" custom v-slot="{isActive, navigate}" class="hover:no-underline text-white">
+        <div :class="isActive?'border-white bg-indigo-600':'border-indigo-500'"
+            class="p-3 m-0 text-xl cursor-pointer border-l-8 hover:bg-indigo-400">Tickets</div>
+    </NavLink>
+</div>
