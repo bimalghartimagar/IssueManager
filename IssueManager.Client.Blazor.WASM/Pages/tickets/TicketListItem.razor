@@ -1,15 +1,22 @@
 @using Domain.Model
 @using Util
 
-<div
-    class="px-2 py-4 m-2 border border-indigo-500 rounded-md flex flex-row justify-between items-center cursor-pointer hover:bg-indigo-400 hover:text-white">
-    <div class="flex-grow text-left">@ticket.Title</div>
-    <div class="text-xs flex-grow-0 mr-2">@ticket.CreatedAt</div>
-    <div class="rounded-lg text-white px-4 py-1 text-sm flex-grow-0 capitalize @Utility.GetStatusColor(@ticket.Status)">
-        @ticket.Status</div>
-</div>
+<NavLink href="@GetTicketUrl(ticket.Id)" class="hover:no-underline">
+    <div
+        class="px-2 py-4 m-2 border border-indigo-500 rounded-md flex flex-row justify-between items-center cursor-pointer hover:bg-indigo-400 hover:text-white">
+        <div class="flex-grow text-left">@ticket.Title</div>
+        <div class="text-xs flex-grow-0 mr-2">@ticket.CreatedAt</div>
+        <div
+            class="rounded-lg text-white px-4 py-1 text-sm flex-grow-0 capitalize @Utility.GetStatusColor(@ticket.Status)">
+            @ticket.Status</div>
+    </div>
+</NavLink>
 
 @code {
     [Parameter]
     public Ticket ticket { get; set; }
+
+    public string GetTicketUrl(int id){
+        return $"ticket/{id}";
+    }
 }

@@ -20,6 +20,15 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script type="text/javascript">
+        function getReadableDateTime(dateTimeString) {
+            console.log("invoked")
+            let date = new Date(dateTimeString)
+            var options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+
+            return date.toLocaleDateString("en-US", options)
+        }
+    </script>
 </body>
 
 </html>

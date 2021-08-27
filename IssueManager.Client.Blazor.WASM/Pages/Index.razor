@@ -5,13 +5,13 @@
 
 <IssueManager.Client.Blazor.WASM.Pages.widgets.WidgetList Data="@widgetData" />
 
-<IssueManager.Client.Blazor.WASM.Pages.tickets.TicketListWrapper tickets="@tickets"/>
+<IssueManager.Client.Blazor.WASM.Pages.tickets.TicketListWrapper tickets="@tickets" />
 
 @code {
     public Dictionary<string, int> widgetData = new Dictionary<string, int>(){
-{ "open", 5},
-{ "assigned", 3},
-{ "closed", 15}
+{ "open", 0},
+{ "assigned", 0},
+{ "closed", 0}
 };
 
     List<Ticket> tickets = new List<Ticket>();
@@ -19,6 +19,20 @@
     protected override async Task OnInitializedAsync()
     {
         tickets = await TicketFetchService.GetTickets();
-        Console.WriteLine(tickets);
+        tickets.ForEach(x =>
+        {
+            if (x.Status == "open")
+            {
+                widgetData["open"]++;
+            }
+            else if (x.Status == "assigned")
+            {
+                widgetData["assigned"]++;
+            }
+            else if (x.Status == "closed")
+            {
+                widgetData["closed"]++;
+            }
+        });
     }
 }
