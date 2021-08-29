@@ -5,5 +5,8 @@ export default {
     },
     getTicket: async (id) => {
         return await fetch(`${API_ENDPOINT}/ticket/${id}`)
+    },
+    searchTicket: async (text) => {
+        return await fetch(`${API_ENDPOINT}/ticket?search=${text}`)
     }
 }
