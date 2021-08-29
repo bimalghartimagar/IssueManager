@@ -7,5 +7,15 @@ export default {
         } else if (status === "closed") {
             return "bg-red-500"
         }
+    },
+    debounce: (func, timeInMilliSeconds) => {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+                func.apply(this, args)
+            }, timeInMilliSeconds)
+        }
+
     }
 }
