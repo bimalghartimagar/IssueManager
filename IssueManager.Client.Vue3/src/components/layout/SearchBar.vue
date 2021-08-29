@@ -1,5 +1,9 @@
 <template>
     <div class="p-6 border-b-2 border-indigo-500">
-        <input class="p-3 w-full border border-gray-500 rounded-lg" type="text" placeholder="Search" />
+        <TicketSearch />
     </div>
 </template>
+
+<script setup>
+import TicketSearch from "../tickets/TicketSearch.vue"
+</script>
