@@ -7,7 +7,11 @@
         placeholder="Search"
         @keyup.stop.prevent.delete="hideSearchResult"
     />
-    <TicketSearchListWrapper v-show="showSearchResult" :list="searchResult">
+    <TicketSearchListWrapper
+        v-show="showSearchResult"
+        :list="searchResult"
+        :search-text="searchText"
+    >
         <span class="text-xl">{{ searchingText }}</span>
     </TicketSearchListWrapper>
 </template>
