@@ -1,14 +1,16 @@
+@using IssueManager.Client.Blazor.WASM.Components.Icons
+
 <div class="grid grid-cols-3 gap-6 mt-8">
     <div class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold">
-        <IssueManager.Client.Blazor.WASM.Pages.icons.ChatIcon />
+        <ChatIcon />
         @data["open"] Opened
     </div>
     <div class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold">
-        <IssueManager.Client.Blazor.WASM.Pages.icons.CogIcon />
+        <CogIcon />
         @data["assigned"] Assigned
     </div>
     <div class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold">
-        <IssueManager.Client.Blazor.WASM.Pages.icons.XCircleIcon />
+        <XCircleIcon />
         @data["closed"] Closed
     </div>
 </div>
