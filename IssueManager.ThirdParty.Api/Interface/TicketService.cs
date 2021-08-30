@@ -23,5 +23,10 @@ namespace IssueManager.ThirdParty.Api.Interface
             return await client.GetFromJsonAsync<Ticket>($"/ticket/{id}");
         }
 
+        public async Task<List<Ticket>> SearchTickets(string searchText)
+        {
+            return await client.GetFromJsonAsync<List<Ticket>>($"/ticket?search={searchText}");
+        }
+
     }
 }
