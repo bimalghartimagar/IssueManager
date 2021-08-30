@@ -1,7 +1,7 @@
 @using Domain.Model
 
-<div class="mt-8 text-xl font-bold text-left p-2">Tickets</div>
-<div class="overflow-y-auto h-96 border border-gray-200 shadow bg-white rounded p-2">
+<div class="mt-8 text-xl font-bold text-left p-2" style="@(tickets.Count<=0?"display: none":"")">Tickets</div>
+<div class="overflow-y-auto h-96 border border-gray-200 shadow bg-white rounded p-2" style="@(tickets.Count<=0?"display: none":"")">
     <TicketList tickets="@tickets" />
 </div>
 
