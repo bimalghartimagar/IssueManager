@@ -4,10 +4,11 @@
 @inject ITicketService TicketFetchService
 
 <IssueManager.Client.Blazor.WASM.Pages.widgets.WidgetList Data="@widgetData" />
-
+<Spinner style="@(!IsLoading?"display: none":"")" />
 <IssueManager.Client.Blazor.WASM.Pages.tickets.TicketListWrapper tickets="@tickets" />
 
 @code {
+    private bool IsLoading { get; set; }
     public Dictionary<string, int> widgetData = new Dictionary<string, int>(){
 { "open", 0},
 { "assigned", 0},
@@ -18,6 +19,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        IsLoading = true;
         tickets = await TicketFetchService.GetTickets();
         tickets.ForEach(x =>
         {
@@ -34,5 +36,6 @@
                 widgetData["closed"]++;
             }
         });
+        IsLoading = false;
     }
 }

@@ -3,14 +3,17 @@
 @using ThirdParty.Api.Interface;
 @inject ITicketService TicketFetchService
 
+<Spinner style="@(!IsLoading?"display: none":"")" />
 <IssueManager.Client.Blazor.WASM.Pages.tickets.TicketListWrapper tickets="@tickets" />
 
 @code {
+    private bool IsLoading {get; set;} = true;
     List<Ticket> tickets = new List<Ticket>();
 
     protected override async Task OnInitializedAsync()
     {
+        IsLoading = true;
         tickets = await TicketFetchService.GetTickets();
-        Console.WriteLine(tickets);
+        IsLoading = false;
     }
 }
