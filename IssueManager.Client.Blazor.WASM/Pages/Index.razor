@@ -1,11 +1,14 @@
 ﻿@page "/"
 @using Domain.Model
-@using ThirdParty.Api.Interface;
+@using IssueManager.Client.Blazor.WASM.Components.Widgets
+@using IssueManager.Client.Blazor.WASM.Components.Tickets
+@using IssueManager.Client.Blazor.WASM.Components.Shared
+@using ThirdParty.Api.Interface
 @inject ITicketService TicketFetchService
 
-<IssueManager.Client.Blazor.WASM.Pages.widgets.WidgetList Data="@widgetData" />
+<WidgetList Data="@widgetData" />
 <Spinner style="@(!IsLoading?"display: none":"")" />
-<IssueManager.Client.Blazor.WASM.Pages.tickets.TicketListWrapper tickets="@tickets" />
+<TicketListWrapper tickets="@tickets" />
 
 @code {
     private bool IsLoading { get; set; }

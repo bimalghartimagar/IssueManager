@@ -1,13 +1,15 @@
 @page "/tickets"
 @using Domain.Model
 @using ThirdParty.Api.Interface;
+@using IssueManager.Client.Blazor.WASM.Components.Tickets
+@using IssueManager.Client.Blazor.WASM.Components.Shared
 @inject ITicketService TicketFetchService
 
 <Spinner style="@(!IsLoading?"display: none":"")" />
-<IssueManager.Client.Blazor.WASM.Pages.tickets.TicketListWrapper tickets="@tickets" />
+<TicketListWrapper tickets="@tickets" />
 
 @code {
-    private bool IsLoading {get; set;} = true;
+    private bool IsLoading { get; set; } = true;
     List<Ticket> tickets = new List<Ticket>();
 
     protected override async Task OnInitializedAsync()
