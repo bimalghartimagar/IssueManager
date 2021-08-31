@@ -21,7 +21,7 @@
 <script setup>
 import { ref } from "@vue/reactivity";
 import TicketSearchListWrapper from "./TicketSearchListWrapper.vue";
-import useSearchTickets from "../containers/useSearchTickets.js"
+import useSearchTickets from "../../containers/useSearchTickets.js"
 
 let searchText = ref("")
 

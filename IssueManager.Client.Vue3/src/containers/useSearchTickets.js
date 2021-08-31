@@ -1,6 +1,6 @@
 import { ref } from "@vue/reactivity"
-import utils from "../../utils/index.js"
-import service from "../../service/TicketService.js"
+import utils from "../utils/index.js"
+import service from "../service/TicketService.js"
 
 export default function useSearchTickets(searchText) {
     let searchResult = ref([])
