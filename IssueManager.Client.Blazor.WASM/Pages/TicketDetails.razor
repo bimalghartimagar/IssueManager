@@ -4,6 +4,7 @@
 @using Util
 @inject ITicketService TicketFetchService
 @inject IJSRuntime JS
+
 <div class="rounded shadow mt-8 pb-1 border border-indigo-400">
     <div class="w-full text-left p-4 text-xl bg-indigo-400 shadow">Details of ticket #@Id</div>
     @if (ticket != null)
@@ -20,6 +21,15 @@
         <div class="m-4 p-2 rounded shadow text-left border border-gray-400">
             <div class="p-4 font-semibold text-xl bg-gray-400">@ticket.Title</div>
             <div class="p-4 m-4 ">@ticket.Description</div>
+        </div>
+        <div class="text-left m-4 p-2">
+            <div>Attachments:</div>
+            <div class="flex flex-wrap gap-x-2">
+                @for (int i = 0; i < ticket.Attachments.Count; i++)
+                {
+                    <img src="@ticket.Attachments[i].Path" class="h-40 w-40 p-1 rounded shadow-lg border border-gray-400"/>
+                }
+            </div>
         </div>
     }
 
