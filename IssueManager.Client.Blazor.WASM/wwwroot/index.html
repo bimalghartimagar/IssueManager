@@ -29,7 +29,18 @@
         }
 
         document.getElementById("app").addEventListener("click", (event) => {
-            DotNet.invokeMethod("IssueManager.Client.Blazor.WASM", "OnAppClick", event)
+            let isTicket = false
+            let itr = event.target.classList.values()
+            let classNameResult = itr.next()
+            while (!classNameResult.done) {
+                if ((/^ticket/).test(classNameResult.value)) {
+                    isTicket = true
+                    break
+                }
+                classNameResult = itr.next()
+            }
+
+            DotNet.invokeMethod("IssueManager.Client.Blazor.WASM", "OnAppClick", JSON.stringify({ isTicketItem: isTicket }))
         });
     </script>
 </body>

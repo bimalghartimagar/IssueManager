@@ -1,5 +1,7 @@
 @using Domain.Model
 @using ThirdParty.Api.Interface
+@using System.Text.Json
+
 @inject ITicketService TicketService
 
 <div>
@@ -7,7 +9,7 @@
         class="p-3 w-full border border-gray-500 rounded-lg" type="text" placeholder="Search" @onmouseover="SetMouseIn"
         @onmouseout="SetMouseOut" />
     <div class="z-10 shadow-2xl bg-white absolute rounded p-3 border-indigo-500 border"
-        style="@(ShowSearchResult?"":"display: none")" @onmouseover="SetMouseIn" @onmouseout="SetMouseOut" >
+        style="@(ShowSearchResult?"":"display: none")" @onmouseover="SetMouseIn" @onmouseout="SetMouseOut">
         <div class="text-xl font-bold text-left p-2">Ticket search list for <span
                 class="text-indigo-500">@SearchText</span></div>
 
@@ -25,21 +27,21 @@
     private string SearchingText { get; set; } = "Searching...";
     private static bool ShowSearchResult { get; set; } = false;
     private List<Ticket> SearchResult = new List<Ticket>();
-
     public static bool IsMouseIn { get; set; }
 
-    public EventCallback<MouseEventArgs> onClickCallback { get; set; }
-
     [JSInvokable]
-    public static void OnAppClick()
+    public static void OnAppClick(string value)
     {
-        if (IsMouseIn)
-        {
-            ShowSearchResult = true;
-        }
-        else
+        JsonDocument IsTicketObj = System.Text.Json.JsonSerializer.Deserialize<JsonDocument>(value);
+        bool IsTicketClicked = IsTicketObj.RootElement.GetProperty("isTicketItem").GetBoolean();
+
+        if (!IsMouseIn || (IsMouseIn && IsTicketClicked))
         {
             ShowSearchResult = false;
+        }
+        else if (IsMouseIn)
+        {
+            ShowSearchResult = true;
         }
     }
 
