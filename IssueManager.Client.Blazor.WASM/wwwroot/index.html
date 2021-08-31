@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>IssueManager.Client.Blazor.WASM</title>
+    <title>Issue Manager</title>
     <base href="/" />
     <link href="css/app.min.css" rel="stylesheet" />
     <link href="IssueManager.Client.Blazor.WASM.styles.css" rel="stylesheet" />
@@ -27,6 +27,10 @@
 
             return date.toLocaleDateString("en-US", options)
         }
+
+        document.getElementById("app").addEventListener("click", (event) => {
+            DotNet.invokeMethod("IssueManager.Client.Blazor.WASM", "OnAppClick", event)
+        });
     </script>
 </body>
 

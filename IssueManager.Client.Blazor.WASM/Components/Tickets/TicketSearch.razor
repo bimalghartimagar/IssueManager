@@ -2,11 +2,12 @@
 @using ThirdParty.Api.Interface
 @inject ITicketService TicketService
 
-<div v-click-outside>
+<div>
     <input @bind="SearchText" @bind:event="oninput" @onkeyup="ProcessSearch"
-        class="p-3 w-full border border-gray-500 rounded-lg" type="text" placeholder="Search" />
+        class="p-3 w-full border border-gray-500 rounded-lg" type="text" placeholder="Search" @onmouseover="SetMouseIn"
+        @onmouseout="SetMouseOut" />
     <div class="z-10 shadow-2xl bg-white absolute rounded p-3 border-indigo-500 border"
-        style="@(ShowSearchResult?"":"display: none")">
+        style="@(ShowSearchResult?"":"display: none")" @onmouseover="SetMouseIn" @onmouseout="SetMouseOut" >
         <div class="text-xl font-bold text-left p-2">Ticket search list for <span
                 class="text-indigo-500">@SearchText</span></div>
 
@@ -22,8 +23,35 @@
 @code {
     private string SearchText { get; set; } = string.Empty;
     private string SearchingText { get; set; } = "Searching...";
-    private bool ShowSearchResult { get; set; } = false;
+    private static bool ShowSearchResult { get; set; } = false;
     private List<Ticket> SearchResult = new List<Ticket>();
+
+    public static bool IsMouseIn { get; set; }
+
+    public EventCallback<MouseEventArgs> onClickCallback { get; set; }
+
+    [JSInvokable]
+    public static void OnAppClick()
+    {
+        if (IsMouseIn)
+        {
+            ShowSearchResult = true;
+        }
+        else
+        {
+            ShowSearchResult = false;
+        }
+    }
+
+    public void SetMouseIn()
+    {
+        IsMouseIn = true;
+    }
+
+    public void SetMouseOut()
+    {
+        IsMouseIn = false;
+    }
 
     public void HideSearchResult()
     {
@@ -38,10 +66,6 @@
     }
     public async Task ProcessSearch(KeyboardEventArgs args)
     {
-        Console.WriteLine(args.Key);
-        Console.WriteLine(args.Code);
-        Console.WriteLine(SearchText);
-
         if (args.Key.Equals("Enter"))
         {
             SearchResult = new List<Ticket>();
