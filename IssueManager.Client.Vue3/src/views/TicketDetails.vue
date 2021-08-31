@@ -18,6 +18,16 @@
             <div class="p-4 font-semibold text-xl bg-gray-400">{{ ticket.title }}</div>
             <div class="p-4 m-4">{{ ticket.description }}</div>
         </div>
+        <div class="text-left m-4 p-2">
+            <div>Attachments:</div>
+            <div class="flex flex-wrap gap-x-2">
+                <img
+                    v-for="attachment in ticket.attachments"
+                    :src="attachment.path"
+                    class="h-40 w-40 p-1 rounded shadow-lg border border-gray-400"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
