@@ -8,5 +8,12 @@ export default {
     },
     searchTicket: async (text) => {
         return await fetch(`${API_ENDPOINT}/ticket?search=${text}`)
-    }
+    },
+    updateTicket: async (ticket, id) => await fetch(`${API_ENDPOINT}/ticket/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(ticket),
+    })
 }
