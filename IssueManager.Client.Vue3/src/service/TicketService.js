@@ -15,5 +15,12 @@ export default {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(ticket),
+    }),
+    createTicket: async (ticket) => await fetch(`${API_ENDPOINT}/ticket`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(ticket),
     })
 }
