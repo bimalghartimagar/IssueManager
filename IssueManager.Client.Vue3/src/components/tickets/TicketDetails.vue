@@ -32,14 +32,17 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "@vue/runtime-core"
-import TicketService from "../service/TicketService.js"
-import service from "../service/TicketService.js"
-import util from "../utils/index.js"
+import { defineAsyncComponent, onMounted, ref, watch } from "@vue/runtime-core"
+import service from "../../service/TicketService.js"
+import util from "../../utils/index.js"
 
 const props = defineProps({
     id: {
         type: String,
+        required: true
+    },
+    edit: {
+        type: Boolean,
         required: true
     }
 })
