@@ -1,21 +1,39 @@
 @using IssueManager.Client.Blazor.WASM.Components.Icons
 
 <div class="grid grid-cols-3 gap-6 mt-8">
-    <div class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold">
+    <div @onclick='(() => ToggleWidget("open"))'
+        class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold cursor-pointer @GetActiveClass(data["open"].Selected)">
         <ChatIcon />
-        @data["open"] Opened
+        @data["open"].Count Opened
     </div>
-    <div class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold">
+    <div @onclick='(() => ToggleWidget("assigned"))'
+        class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold cursor-pointer @GetActiveClass(data["assigned"].Selected)">
         <CogIcon />
-        @data["assigned"] Assigned
+        @data["assigned"].Count Assigned
     </div>
-    <div class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold">
+    <div @onclick='(() => ToggleWidget("closed"))'
+        class="bg-white shadow rounded py-6 flex justify-center items-center text-4xl font-semibold cursor-pointer @GetActiveClass(data["closed"].Selected)">
         <XCircleIcon />
-        @data["closed"] Closed
+        @data["closed"].Count Closed
     </div>
 </div>
 
 @code {
     [Parameter]
-    public Dictionary<string, int> data { get; set; }
+    public Dictionary<string, Pages.Index.TrackingData> data { get; set; }
+
+    [Parameter]
+    public EventCallback FilterTickets { get; set;}
+
+    public string GetActiveClass(bool isSelected)
+    {
+        return isSelected ? "shadow-lg ring ring-indigo-500" : "";
+    }
+
+    public void ToggleWidget(string key)
+    {
+        data[key].Selected = !data[key].Selected;
+        data["test"] = new Pages.Index.TrackingData() { Count = 1, Selected = false };
+        FilterTickets.InvokeAsync();
+    }
 }
