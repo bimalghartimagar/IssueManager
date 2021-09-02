@@ -3,13 +3,14 @@
         <div class="w-full text-left p-4 text-xl bg-indigo-400 shadow">
             Details of ticket #{{ ticket.id }}
             <button
-                @click="saveTicket"
+                @click.capture.prevent="saveTicket"
                 class="flex flex-row items-center float-right rounded px-2 pt-1 bg-white shadow-xl hover:shadow-none hover:bg-indigo-500 hover:text-white"
-                :class="isUpdating ? 'disabled:opacity-50' : ''"
+                :class="isUpdating ? 'disabled:opacity-50 cursor-not-allowed' : ''"
+                :disabled="isUpdating"
             >
                 <svg
                     v-show="isUpdating"
-                    class="mr-1 h-5 w-5 hover:text-white"
+                    class="animate-spin mr-1 h-5 w-5 hover:text-white"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
