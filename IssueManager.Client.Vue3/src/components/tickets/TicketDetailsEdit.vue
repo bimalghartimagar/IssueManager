@@ -4,7 +4,7 @@
             Details of ticket #{{ ticket.id }}
             <button
                 @click.capture.prevent="saveTicket"
-                class="flex flex-row items-center float-right rounded px-2 pt-1 bg-white shadow-xl hover:shadow-none hover:bg-indigo-500 hover:text-white"
+                class="flex flex-row items-center float-right rounded px-2 py-1 bg-white shadow-xl hover:shadow-none hover:bg-indigo-500 hover:text-white"
                 :class="isUpdating ? 'disabled:opacity-50 cursor-not-allowed' : ''"
                 :disabled="isUpdating"
             >
