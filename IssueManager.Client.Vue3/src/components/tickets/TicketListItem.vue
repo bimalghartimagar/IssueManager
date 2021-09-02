@@ -9,12 +9,24 @@
                 class="ticket-status rounded-lg text-white px-4 py-1 text-sm flex-grow-0 capitalize"
                 :class="util.getStatusColor(ticket.status)"
             >{{ ticket.status }}</div>
+            <div class="ml-2">
+                <router-link :to="`/ticket/${ticket.id}/edit`">
+                    <button
+                        class="flex flex-row items-center float-right rounded px-2 pt-1 bg-indigo-500 shadow-xl hover:shadow-none hover:bg-white hover:text-black text-white"
+                    >
+                        <PencilAltIcon class="mr-1 w-5 h-5" />
+                        <span>Edit</span>
+                    </button>
+                </router-link>
+            </div>
         </div>
     </router-link>
 </template>
 
 <script setup>
 import util from "../../utils/index.js"
+import { PencilAltIcon } from "@heroicons/vue/outline"
+
 defineProps({
     ticket: {
         type: Object,
