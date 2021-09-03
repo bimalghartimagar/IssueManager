@@ -22,5 +22,19 @@ export default {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(ticket),
+    }),
+    deleteTicket: async (id) => await fetch(`${API_ENDPOINT}/ticket/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isDeleted: true }),
+    }),
+    restoreTicket: async (id) => await fetch(`${API_ENDPOINT}/ticket/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isDeleted: false }),
     })
 }
