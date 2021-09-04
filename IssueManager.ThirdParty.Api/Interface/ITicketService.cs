@@ -10,5 +10,6 @@ namespace IssueManager.ThirdParty.Api.Interface
         public Task<Ticket> GetTicket(int id);
         public Task<List<Ticket>> SearchTickets(string searchText);
         public Task<Ticket> UpdateTicket(Ticket ticket);
+        public Task<Ticket> CreateTicket(Ticket ticket);
     }
 }
