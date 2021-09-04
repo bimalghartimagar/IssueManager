@@ -35,7 +35,7 @@ namespace IssueManager.ThirdParty.Api.Interface
         }
         public async Task<Ticket> CreateTicket(Ticket ticket)
         {
-            var response = await client.PostAsJsonAsync<Ticket>($"/ticket/{ticket.Id}", ticket);
+            var response = await client.PostAsJsonAsync<Ticket>($"/ticket", ticket);
             return await response.Content.ReadFromJsonAsync<Ticket>();
         }
     }
