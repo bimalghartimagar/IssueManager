@@ -1,0 +1,107 @@
+@page "/ticket/{id:int}/edit"
+@using Domain.Model
+@using IssueManager.Client.Blazor.WASM.Components.Icons
+@using ThirdParty.Api.Interface
+@using Util
+@inject ITicketService TicketService
+@inject IJSRuntime JS
+
+<div class="rounded shadow mt-8 pb-1 border border-indigo-400">
+    <div class="flex items-center justify-between w-full text-left p-4 text-xl bg-indigo-400 shadow">Details of ticket
+        #@Id
+        <span class="text-white mr-2">@UpdateMessage</span>
+
+        <button @onclick="SaveTicket"
+            class="flex flex-row items-center rounded px-2 py-1 bg-white shadow-xl hover:shadow-none hover:bg-indigo-500 hover:text-white text-indigo-500 @(IsUpdating?"disabled:opacity-50 cursor-not-allowed":"")"
+            disabled="@IsUpdating">
+            <svg style="@(IsUpdating?"display: block":"display: none")"
+                class="animate-spin mr-1 h-5 w-5 hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+            </svg>
+            <span style="@(IsUpdating?"display: none":"display: block")" class="mr-1">
+                <SaveIcon />
+            </span>
+
+            <span>Save</span>
+        </button>
+    </div>
+    @if (ticket != null)
+    {
+        <div class="grid grid-cols-3 gap-4 shadow p-3">
+            <div>Created At: @CreatedProxy</div>
+            <div>Updated At: @UpdatedProxy</div>
+            <div>
+                Status:
+                <span
+                class="rounded-lg text-white px-4 py-1 text-sm capitalize @Utility.GetStatusColor(ticket.Status)">@ticket.Status</span>
+            </div>
+        </div>
+        <div class="m-4 p-2 rounded shadow text-left border border-gray-400">
+            <div class="text-xl font-bold">Title:</div>
+
+            <div class="p-4 font-semibold text-xl bg-gray-400"><input @bind="ticket.Title" @bind:event="oninput"
+                class="p-2 w-full rounded border border-black" />
+            </div>
+            <div class="p-4 m-4 ">
+                <div class="text-xl font-bold">Description:</div>
+
+                <textarea @bind="ticket.Description" @bind:event="oninput"
+                class="w-full h-60 p-1 rounded border border-black"></textarea>
+            </div>
+        </div>
+        <div class="text-left m-4 p-2">
+            <div>Attachments:</div>
+            <div class="flex flex-wrap gap-x-2">
+                @for (int i = 0; i < ticket.Attachments.Count; i++)
+                {
+                    <img src="@ticket.Attachments[i].Path" class="h-40 w-40 p-1 rounded shadow-lg border border-gray-400" />
+                }
+            </div>
+        </div>
+    }
+
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public Ticket ticket { get; set; }
+
+    private bool IsUpdating { get; set; }
+    private string UpdateMessage { get; set; }
+    public string CreatedProxy { get; set; }
+    public string UpdatedProxy { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        ticket = await TicketService.GetTicket(Id);
+        CreatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.CreatedAt.ToString("o"));
+        UpdatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.UpdatedAt.ToString("o"));
+    }
+
+    public async void SaveTicket()
+    {
+        IsUpdating = true;
+        try
+        {
+            Console.WriteLine("try");
+            await TicketService.UpdateTicket(ticket);
+            UpdateMessage = "Updated ticket details";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("catch");
+            Console.WriteLine(ex);
+            UpdateMessage = "Error while updating ticket details";
+        }
+        finally
+        {
+            Console.WriteLine("finally");
+            IsUpdating = false;
+            StateHasChanged();
+        }
+
+    }
+}
