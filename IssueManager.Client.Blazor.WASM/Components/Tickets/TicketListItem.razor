@@ -1,4 +1,5 @@
 @using Domain.Model
+@using IssueManager.Client.Blazor.WASM.Components.Icons
 @using Util
 
 <NavLink href="@GetTicketUrl(ticket.Id)" class="hover:no-underline">
@@ -9,6 +10,17 @@
         <div
             class="ticket-status rounded-lg text-white px-4 py-1 text-sm flex-grow-0 capitalize @Utility.GetStatusColor(@ticket.Status)">
             @ticket.Status</div>
+        <div class="ticket-link ml-2">
+            <NavLink href="@($"/ticket/{ticket.Id}/edit")">
+                <button
+                    class="ticket-link flex flex-row items-center float-right rounded px-2 py-1 bg-indigo-500 shadow-xl hover:shadow-none hover:bg-white hover:text-black text-white">
+                    <span class="ticket-link mr-1">
+                        <PencilAltIcon />
+                    </span>
+                    <span class="ticket-link">Edit</span>
+                </button>
+            </NavLink>
+        </div>
     </div>
 </NavLink>
 
@@ -16,7 +28,8 @@
     [Parameter]
     public Ticket ticket { get; set; }
 
-    public string GetTicketUrl(int id){
+    public string GetTicketUrl(int id)
+    {
         return $"ticket/{id}";
     }
 }
