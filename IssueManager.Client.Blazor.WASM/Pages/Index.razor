@@ -21,14 +21,15 @@
         public bool Selected { get; set; }
     }
 
-    public static Dictionary<string, TrackingData> widgetData = new Dictionary<string, TrackingData>(){
-        { "open", new TrackingData(){ Count = 0, Selected = false}},
-        { "assigned", new TrackingData(){ Count = 0, Selected = false}},
-        { "closed", new TrackingData(){ Count = 0, Selected = false}}
-    };
+    public static Dictionary<string, TrackingData> widgetData;
 
     protected override async Task OnInitializedAsync()
     {
+        widgetData = new Dictionary<string, TrackingData>(){
+{ "open", new TrackingData(){ Count = 0, Selected = false}},
+{ "assigned", new TrackingData(){ Count = 0, Selected = false}},
+{ "closed", new TrackingData(){ Count = 0, Selected = false}}
+};
         IsLoading = true;
         tickets = await TicketFetchService.GetTickets();
         FilterTickets();
@@ -63,12 +64,16 @@
         return statuses;
     }
 
-    public void FilterTickets () {
+    public void FilterTickets()
+    {
         List<string> statusList = GetSelectedStatusList();
-        if(statusList.Count > 0){
-            FilteredTickets = tickets.Where(x=> statusList.Contains(x.Status)).ToList();
-        }else{
+        if (statusList.Count > 0)
+        {
+            FilteredTickets = tickets.Where(x => statusList.Contains(x.Status)).ToList();
+        }
+        else
+        {
             FilteredTickets = tickets;
         }
-     }
+    }
 }
