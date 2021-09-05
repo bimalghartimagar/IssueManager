@@ -4,6 +4,10 @@ namespace IssueManager.Client.Blazor.WASM.Util
     {
         public static string GetStatusColor(string status)
         {
+            if (status == null)
+            {
+                return "";
+            }
             if (status.Equals("open"))
             {
                 return "bg-yellow-500";
@@ -17,6 +21,7 @@ namespace IssueManager.Client.Blazor.WASM.Util
                 return "bg-red-500";
             }
             return "";
+
         }
     }
 }

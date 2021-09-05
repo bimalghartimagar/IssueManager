@@ -2,6 +2,7 @@
 @using Domain.Model
 @using IssueManager.Client.Blazor.WASM.Components.Icons
 @using ThirdParty.Api.Interface
+@using Util
 @inject ITicketService TicketService
 @inject NavigationManager nvm
 
@@ -23,7 +24,7 @@
                 class="p-1 rounded border border-black">
                 @foreach (var item in StatusList)
                 {
-                    <option value="@item.ToLower()" :class="util.getStatusColor(data.value)">@item</option>
+                    <option value="@item.ToLower()" class="@Utility.GetStatusColor(item.ToLower())">@item</option>
                 }
             </select>
         </div>
@@ -38,8 +39,7 @@
                     <path class="opacity-75" fill="currentColor"
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                <span style="@(!IsAdding?" display: block":"display: none")"
-                class="mr-1">
+                <span style="@(!IsAdding?" display: block":"display: none")" class="mr-1">
                     <PlusCircleIcon />
                 </span>
                 <span>Create</span>

@@ -35,8 +35,13 @@
             <div>Updated At: @UpdatedProxy</div>
             <div>
                 Status:
-                <span
-                class="rounded-lg text-white px-4 py-1 text-sm capitalize @Utility.GetStatusColor(ticket.Status)">@ticket.Status</span>
+                <select @bind="ticket.Status" @bind:event="onchange" v-model="ticket.status"
+                class="p-1 rounded border border-black">
+                    @foreach (var item in StatusList)
+                    {
+                        <option value="@item.ToLower()" class="@Utility.GetStatusColor(item.ToLower())">@item</option>
+                    }
+                </select>
             </div>
         </div>
         <div class="m-4 p-2 rounded shadow text-left border border-gray-400">
@@ -74,6 +79,11 @@
     private string UpdateMessage { get; set; }
     public string CreatedProxy { get; set; }
     public string UpdatedProxy { get; set; }
+
+    public List<string> StatusList { get; set; } = new List<string>()
+{
+"Open", "Assigned", "Closed"
+};
     protected override async Task OnInitializedAsync()
     {
         ticket = await TicketService.GetTicket(Id);
