@@ -4,7 +4,9 @@
             class="ticket-item px-2 py-4 m-2 border border-indigo-500 rounded-md flex flex-row justify-between items-center cursor-pointer hover:bg-indigo-400 hover:text-white"
         >
             <div class="ticket-title flex-grow text-left">{{ ticket.title }}</div>
-            <div class="ticket-date text-xs flex-grow-0 mr-2">Created 10 minutes ago</div>
+            <div
+                class="ticket-date text-xs flex-grow-0 mr-2"
+            >{{ getFormattedDateTime(ticket.createdAt) }}</div>
             <div
                 class="ticket-status rounded-lg text-white px-4 py-1 text-sm flex-grow-0 capitalize"
                 :class="util.getStatusColor(ticket.status)"
@@ -33,5 +35,9 @@ defineProps({
         required: true
     }
 })
+
+function getFormattedDateTime(datetime) {
+    return new Date(datetime).toLocaleDateString() + ' ' + new Date(datetime).toLocaleTimeString()
+}
 
 </script>
