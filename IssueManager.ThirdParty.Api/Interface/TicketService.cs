@@ -38,5 +38,12 @@ namespace IssueManager.ThirdParty.Api.Interface
             var response = await client.PostAsJsonAsync<Ticket>($"/ticket", ticket);
             return await response.Content.ReadFromJsonAsync<Ticket>();
         }
+
+        public async Task<Ticket> RestoreTicket(Ticket ticket)
+        {
+            ticket.IsDeleted = false;
+            var response = await client.PutAsJsonAsync<Ticket>($"/ticket/{ticket.Id}", ticket);
+            return await response.Content.ReadFromJsonAsync<Ticket>();
+        }
     }
 }
