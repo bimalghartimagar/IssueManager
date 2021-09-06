@@ -7,7 +7,7 @@
             <div class="modal-title bg-indigo-500 p-2 text-white text-lg">
                 <slot name="title">Title</slot>
             </div>
-            <div class="modal-body bg-white p-2 text-lg">
+            <div class="modal-body bg-white p-2 text-lg text-black">
                 <slot name="body">Body</slot>
             </div>
             <div class="px-2 bg-white flex items-center justify-end">
