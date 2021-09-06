@@ -11,6 +11,7 @@ namespace IssueManager.ThirdParty.Api.Interface
         public Task<List<Ticket>> SearchTickets(string searchText);
         public Task<Ticket> UpdateTicket(Ticket ticket);
         public Task<Ticket> CreateTicket(Ticket ticket);
-        public Task<Ticket> RestoreTicket(Ticket ticket);
+        public Task<Ticket> RestoreTicket(int id);
+        public Task<Ticket> DeleteTicket(int id);
     }
 }

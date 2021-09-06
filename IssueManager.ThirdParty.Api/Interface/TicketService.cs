@@ -39,10 +39,15 @@ namespace IssueManager.ThirdParty.Api.Interface
             return await response.Content.ReadFromJsonAsync<Ticket>();
         }
 
-        public async Task<Ticket> RestoreTicket(Ticket ticket)
+        public async Task<Ticket> RestoreTicket(int id)
         {
-            ticket.IsDeleted = false;
-            var response = await client.PutAsJsonAsync<Ticket>($"/ticket/{ticket.Id}", ticket);
+            var response = await client.PutAsJsonAsync($"/ticket/{id}", new Dictionary<string, bool>() { { "IsDeleted", false } });
+            return await response.Content.ReadFromJsonAsync<Ticket>();
+        }
+        public async Task<Ticket> DeleteTicket(int id)
+        {
+
+            var response = await client.PutAsJsonAsync($"/ticket/{id}", new Dictionary<string, bool>() { { "IsDeleted", true } });
             return await response.Content.ReadFromJsonAsync<Ticket>();
         }
     }
