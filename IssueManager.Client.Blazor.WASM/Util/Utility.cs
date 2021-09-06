@@ -10,15 +10,15 @@ namespace IssueManager.Client.Blazor.WASM.Util
             }
             if (status.Equals("open"))
             {
-                return "bg-yellow-500";
+                return "bg-yellow-500 font-semibold";
             }
             else if (status.Equals("assigned"))
             {
-                return "bg-green-500";
+                return "bg-green-500 font-semibold";
             }
             else if (status.Equals("closed"))
             {
-                return "bg-red-500";
+                return "bg-red-500 font-semibold";
             }
             return "";
 

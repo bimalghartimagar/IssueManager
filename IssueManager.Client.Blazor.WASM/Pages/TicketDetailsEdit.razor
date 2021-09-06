@@ -48,7 +48,7 @@
             <div>Updated At: @UpdatedProxy</div>
             <div class="flex flex-row">
                 <div class="mr-1">Status:</div>
-                <select @bind="ticket.Status" @bind:event="onchange" v-model="ticket.status" disabled="@ticket.IsDeleted"
+                <select @bind="ticket.Status" disabled="@ticket.IsDeleted"
                 class="p-1 rounded border border-black">
                     @foreach (var item in StatusList)
                     {
@@ -100,29 +100,33 @@
 };
     protected override async Task OnInitializedAsync()
     {
+        await ProcessTicket();
+    }
+
+    public async Task ProcessTicket()
+    {
         ticket = await TicketService.GetTicket(Id);
         CreatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.CreatedAt.ToString("o"));
         UpdatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.UpdatedAt.ToString("o"));
     }
 
-    public async void SaveTicket()
+    public async Task SaveTicket()
     {
         IsUpdating = true;
         try
         {
-            Console.WriteLine("try");
+            ticket.UpdatedAt = DateTime.Now;
             await TicketService.UpdateTicket(ticket);
+            await ProcessTicket();
             UpdateMessage = "Updated ticket details";
         }
         catch (Exception ex)
         {
-            Console.WriteLine("catch");
             Console.WriteLine(ex);
             UpdateMessage = "Error while updating ticket details";
         }
         finally
         {
-            Console.WriteLine("finally");
             IsUpdating = false;
             StateHasChanged();
         }
@@ -131,7 +135,8 @@
     public async void RestoreTicket()
     {
         IsUpdating = true;
-        await TicketService.RestoreTicket(ticket);
+        await TicketService.RestoreTicket(Id);
+        await ProcessTicket();
         IsUpdating = false;
         StateHasChanged();
     }
