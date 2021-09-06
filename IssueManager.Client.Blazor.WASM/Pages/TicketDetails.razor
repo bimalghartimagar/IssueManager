@@ -3,6 +3,7 @@
 @using ThirdParty.Api.Interface
 @using Util
 @using IssueManager.Client.Blazor.WASM.Components.Icons
+@using IssueManager.Client.Blazor.WASM.Components.Modal
 
 @inject ITicketService TicketService
 @inject IJSRuntime JS
@@ -10,9 +11,25 @@
 @if (ticket != null)
 {
     <div class="rounded shadow mt-8 pb-1 border border-indigo-400">
-        <div class="flex items-center justify-between w-full text-left p-4 text-xl shadow text-white @(ticket.IsDeleted? "bg-red-500" : "bg-indigo-400")">Details of
+        <div
+        class="flex items-center justify-between w-full text-left p-4 text-xl shadow text-white @(ticket.IsDeleted? "bg-red-500" : "bg-indigo-400")">
+            Details of
             ticket #@Id
             <div class="bg-red-500 p-2 rounded @(ticket.IsDeleted?"":"hidden")">This ticket is deleted.</div>
+
+            <Modal class="@(!ticket.IsDeleted?"":"hidden")" Approve="DeleteTicket">
+                <ButtonFragment>
+                    <button
+                    class="flex flex-row items-center float-right rounded px-2 py-1 bg-red-500 shadow-xl hover:shadow-none text-white hover:bg-red-600">
+                        <span class="mr-1">
+                            <TrashIcon />
+                        </span>
+                        <span>Delete</span>
+                    </button>
+                </ButtonFragment>
+                <TitleFragment>Delete ticket</TitleFragment>
+                <BodyFragment>Are you sure you want to delete the ticket?</BodyFragment>
+            </Modal>
 
 
             <button @onclick="RestoreTicket"
@@ -65,13 +82,24 @@
     public string UpdatedProxy { get; set; }
     protected override async Task OnInitializedAsync()
     {
+        await ProcessTicket();
+    }
+
+    public async Task ProcessTicket()
+    {
         ticket = await TicketService.GetTicket(Id);
         CreatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.CreatedAt.ToString("o"));
         UpdatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.UpdatedAt.ToString("o"));
+        StateHasChanged();
     }
     public async void RestoreTicket()
     {
-        await TicketService.RestoreTicket(ticket);
-        StateHasChanged();
+        await TicketService.RestoreTicket(Id);
+        await ProcessTicket();
+    }
+    public async void DeleteTicket()
+    {
+        await TicketService.DeleteTicket(Id);
+        await ProcessTicket();
     }
 }
