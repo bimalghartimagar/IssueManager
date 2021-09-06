@@ -46,8 +46,8 @@
         <div class="grid grid-cols-3 gap-4 shadow p-3">
             <div>Created At: @CreatedProxy</div>
             <div>Updated At: @UpdatedProxy</div>
-            <div>
-                Status:
+            <div class="flex flex-row">
+                <div class="mr-1">Status:</div>
                 <select @bind="ticket.Status" @bind:event="onchange" v-model="ticket.status" disabled="@ticket.IsDeleted"
                 class="p-1 rounded border border-black">
                     @foreach (var item in StatusList)
