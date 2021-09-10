@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 
 using IssueManager.Infra.Data.Context;
+using IssueManager.Infra.IoC;
 
 namespace IssueManager.WebApi
 {
@@ -39,6 +40,7 @@ namespace IssueManager.WebApi
             {
                 options.UseSqlServer(Configuration.GetConnectionString("IssueManagerConnection"));
             });
+            RegisterServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +63,11 @@ namespace IssueManager.WebApi
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public static void RegisterServices(IServiceCollection services)
+        {
+            DependencyContainer.RegisterServices(services);
         }
     }
 }

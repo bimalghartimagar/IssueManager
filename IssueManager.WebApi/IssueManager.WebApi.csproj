@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IssueManager.Infra.Data\IssueManager.Infra.Data.csproj" />
+    <ProjectReference Include="..\IssueManager.Infra.IoC\IssueManager.Infra.IoC.csproj" />
+    <ProjectReference Include="..\IssueManager.Application\IssueManager.Application.csproj" />
   </ItemGroup>
 
 </Project>
