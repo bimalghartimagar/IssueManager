@@ -7,7 +7,7 @@ namespace IssueManager.Domain.Model
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Status { get; set; }
+        public Status Status { get; set; }
         public List<Attachment> Attachments { get; set; }
     }
 }
