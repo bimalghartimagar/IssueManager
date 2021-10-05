@@ -17,5 +17,15 @@ namespace IssueManager.Infra.Data.Repositories
         {
             return _dbContext.Tickets;
         }
+        public Ticket GetTicket(int id){
+            return _dbContext.Tickets.Find(id);
+        }
+
+        public Ticket CreateTicket(Ticket ticket)
+        {
+            _dbContext.Tickets.Add(ticket);
+            _dbContext.SaveChanges();
+            return ticket;
+        }
     }
 }

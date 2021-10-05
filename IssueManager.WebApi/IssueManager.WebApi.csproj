@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IssueManager.Domain\IssueManager.Domain.csproj" />
     <ProjectReference Include="..\IssueManager.Infra.Data\IssueManager.Infra.Data.csproj" />
     <ProjectReference Include="..\IssueManager.Infra.IoC\IssueManager.Infra.IoC.csproj" />
     <ProjectReference Include="..\IssueManager.Application\IssueManager.Application.csproj" />
