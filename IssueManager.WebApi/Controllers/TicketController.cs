@@ -50,5 +50,18 @@ namespace IssueManager.WebApi.Controllers
 
             return updatedTicket;
         }
+
+        // DELETE: tickets/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteTicket(int id) {
+            var ticket = _ticketService.GetTicket(id);
+            
+            if(ticket is null){
+                return NotFound();
+            }
+            _ticketService.DeleteTicket(id);
+
+            return NoContent();
+        }
     }
 }

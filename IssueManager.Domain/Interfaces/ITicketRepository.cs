@@ -7,5 +7,6 @@ namespace IssueManager.Domain.Interfaces{
         Ticket GetTicket(int id);
         Ticket CreateTicket(Ticket ticket);
         Ticket UpdateTicket(Ticket ticket);
+        void DeleteTicket(int id);
     }
 }

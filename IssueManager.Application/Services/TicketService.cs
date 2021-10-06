@@ -57,5 +57,9 @@ namespace IssueManager.Application.Services
 
             return _ticketRepository.UpdateTicket(existingTicket).AsDto();
         }
+
+        public void DeleteTicket(int id) {
+            _ticketRepository.DeleteTicket(id);
+        }
     }
 }

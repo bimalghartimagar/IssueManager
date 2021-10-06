@@ -8,5 +8,6 @@ namespace IssueManager.Application.Interfaces{
         TicketDto GetTicket(int id);
         TicketDto CreateTicket(CreateTicketDto createTicketDto);
         TicketDto UpdateTicket(int id, UpdateTicketDto updateTicketDto);
+        void DeleteTicket(int id);
     }
 }

@@ -34,5 +34,13 @@ namespace IssueManager.Infra.Data.Repositories
             _dbContext.SaveChanges();
             return ticket;
         }
+
+        public void DeleteTicket(int id){
+            var ticketToDelete = _dbContext.Tickets.Find(id);
+            if(ticketToDelete is not null){
+            _dbContext.Tickets.Remove(ticketToDelete);
+            _dbContext.SaveChanges();
+            }
+        }
     }
 }
