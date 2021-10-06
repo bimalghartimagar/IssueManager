@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using IssueManager.Application.Dtos;
+using IssueManager.Application.Extensions;
 using IssueManager.Application.Interfaces;
-using IssueManager.Application.ResourceModels;
 using IssueManager.Domain.Interfaces;
 using IssueManager.Domain.Model;
 namespace IssueManager.Application.Services
@@ -13,26 +15,47 @@ namespace IssueManager.Application.Services
         {
             _ticketRepository = ticketRepository;
         }
-        public TicketsResourceModel GetTickets()
+        public IEnumerable<TicketDto> GetTickets()
         {
-            return new TicketsResourceModel()
-            {
-                Tickets = _ticketRepository.GetTickets()
-            };
+            var tickets = _ticketRepository.GetTickets();
+
+            return tickets.Select(ticket => ticket.AsDto()).ToList();
         }
 
-        public Ticket GetTicket(int id){
-            return _ticketRepository.GetTicket(id);
+        public TicketDto GetTicket(int id){
+            Ticket ticket = _ticketRepository.GetTicket(id);
+
+            if(ticket is null){
+                return null;
+            }
+
+            return ticket.AsDto();
         }
 
-        public Ticket CreateTicket(CreateTicketResourceModel createTicket)
+        public TicketDto CreateTicket(CreateTicketDto createTicketDto)
         {
             Ticket ticket = new()
             {
-                Title = createTicket.Title,
-                Description = createTicket.Description,
+                Title = createTicketDto.Title,
+                Description = createTicketDto.Description,
             };
-            return _ticketRepository.CreateTicket(ticket);
+            return _ticketRepository.CreateTicket(ticket).AsDto();
+        }
+
+        public TicketDto UpdateTicket(int id, UpdateTicketDto updateTicketDto)
+        {
+            Ticket existingTicket = _ticketRepository.GetTicket(id);
+
+            if(existingTicket is null){
+                return null;
+            }
+
+            existingTicket.Title = updateTicketDto.Title;
+            existingTicket.Description = updateTicketDto.Description;
+            existingTicket.IsDeleted = updateTicketDto.IsDeleted;
+            existingTicket.UpdatedAt = DateTime.Now;
+
+            return _ticketRepository.UpdateTicket(existingTicket).AsDto();
         }
     }
 }
