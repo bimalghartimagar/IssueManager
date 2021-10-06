@@ -6,5 +6,6 @@ namespace IssueManager.Domain.Interfaces{
         IEnumerable<Ticket> GetTickets();
         Ticket GetTicket(int id);
         Ticket CreateTicket(Ticket ticket);
+        Ticket UpdateTicket(Ticket ticket);
     }
 }

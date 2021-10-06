@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using IssueManager.Domain.Model;
 using IssueManager.Domain.Interfaces;
+using IssueManager.Domain.Model;
 using IssueManager.Infra.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace IssueManager.Infra.Data.Repositories
 {
@@ -24,6 +25,12 @@ namespace IssueManager.Infra.Data.Repositories
         public Ticket CreateTicket(Ticket ticket)
         {
             _dbContext.Tickets.Add(ticket);
+            _dbContext.SaveChanges();
+            return ticket;
+        }
+
+        public Ticket UpdateTicket(Ticket ticket){
+            _dbContext.Entry(ticket).State = EntityState.Modified;
             _dbContext.SaveChanges();
             return ticket;
         }
