@@ -3,6 +3,8 @@ using IssueManager.Application.Interfaces;
 using IssueManager.Application.Services;
 using IssueManager.Domain.Interfaces;
 using IssueManager.Infra.Data.Repositories;
+using IssueManager.Domain.Model;
+
 namespace IssueManager.Infra.IoC
 {
     public class DependencyContainer
@@ -10,7 +12,7 @@ namespace IssueManager.Infra.IoC
         public static void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<ITicketService, TicketService>();
-            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<IBaseRepository<Ticket>, TicketRepository>();
         }
     }
 }

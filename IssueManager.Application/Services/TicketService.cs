@@ -10,20 +10,20 @@ namespace IssueManager.Application.Services
 {
     public class TicketService : ITicketService
     {
-        public ITicketRepository _ticketRepository;
-        public TicketService(ITicketRepository ticketRepository)
+        public IBaseRepository<Ticket> _ticketRepository;
+        public TicketService(IBaseRepository<Ticket> ticketRepository)
         {
             _ticketRepository = ticketRepository;
         }
         public IEnumerable<TicketDto> GetTickets()
         {
-            var tickets = _ticketRepository.GetTickets();
+            var tickets = _ticketRepository.GetItems();
 
             return tickets.Select(ticket => ticket.AsDto()).ToList();
         }
 
         public TicketDto GetTicket(int id){
-            Ticket ticket = _ticketRepository.GetTicket(id);
+            Ticket ticket = _ticketRepository.GetItem(id);
 
             if(ticket is null){
                 return null;
@@ -39,12 +39,12 @@ namespace IssueManager.Application.Services
                 Title = createTicketDto.Title,
                 Description = createTicketDto.Description,
             };
-            return _ticketRepository.CreateTicket(ticket).AsDto();
+            return _ticketRepository.CreateItem(ticket).AsDto();
         }
 
         public TicketDto UpdateTicket(int id, UpdateTicketDto updateTicketDto)
         {
-            Ticket existingTicket = _ticketRepository.GetTicket(id);
+            Ticket existingTicket = _ticketRepository.GetItem(id);
 
             if(existingTicket is null){
                 return null;
@@ -55,11 +55,11 @@ namespace IssueManager.Application.Services
             existingTicket.IsDeleted = updateTicketDto.IsDeleted;
             existingTicket.UpdatedAt = DateTime.Now;
 
-            return _ticketRepository.UpdateTicket(existingTicket).AsDto();
+            return _ticketRepository.UpdateItem(existingTicket).AsDto();
         }
 
         public void DeleteTicket(int id) {
-            _ticketRepository.DeleteTicket(id);
+            _ticketRepository.DeleteItem(id);
         }
     }
 }
