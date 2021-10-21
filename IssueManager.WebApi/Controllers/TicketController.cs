@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using IssueManager.Application.Dtos;
 using IssueManager.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -14,15 +15,15 @@ namespace IssueManager.WebApi.Controllers
 
         // GET: tickets/
         [HttpGet]
-        public IEnumerable<TicketDto> GetTickets()
+        public async Task<IEnumerable<TicketDto>> GetTicketsAsync()
         {
-            return _ticketService.GetTickets();
+            return await _ticketService.GetTicketsAsync();
         }
 
         // GET: tickets/{id}
         [HttpGet("{id}")]
-        public ActionResult<TicketDto> GetTicket (int id){
-            var ticket = _ticketService.GetTicket(id);
+        public async Task<ActionResult<TicketDto>> GetTicketAsync(int id){
+            var ticket = await _ticketService.GetTicketAsync(id);
 
             if(ticket == null){
                 return NotFound();
@@ -33,16 +34,16 @@ namespace IssueManager.WebApi.Controllers
 
         // POST: tickets/
         [HttpPost]
-        public ActionResult<TicketDto> CreateTicket(CreateTicketDto createTicketDto)
+        public async Task<ActionResult<TicketDto>> CreateTicketAsync(CreateTicketDto createTicketDto)
         {
-            TicketDto NewTicket = _ticketService.CreateTicket(createTicketDto);
-            return CreatedAtAction(nameof(GetTicket), new { id = NewTicket.Id }, NewTicket);
+            TicketDto NewTicket = await _ticketService.CreateTicketAsync(createTicketDto);
+            return CreatedAtAction(nameof(GetTicketAsync), new { id = NewTicket.Id }, NewTicket);
         }
 
         // PUT: tickets/{id}
         [HttpPut("{id}")]
-        public ActionResult<TicketDto> UpdateTicket(int id, UpdateTicketDto updateTicketDto){
-            var updatedTicket = _ticketService.UpdateTicket(id, updateTicketDto);
+        public async Task<ActionResult<TicketDto>> UpdateTicketAsync(int id, UpdateTicketDto updateTicketDto){
+            var updatedTicket = await _ticketService.UpdateTicketAsync(id, updateTicketDto);
 
             if(updatedTicket is null){
                 return NotFound();
@@ -53,13 +54,13 @@ namespace IssueManager.WebApi.Controllers
 
         // DELETE: tickets/{id}
         [HttpDelete("{id}")]
-        public ActionResult DeleteTicket(int id) {
-            var ticket = _ticketService.GetTicket(id);
+        public async Task<ActionResult> DeleteTicketAsync(int id) {
+            var ticket = await _ticketService.GetTicketAsync(id);
             
             if(ticket is null){
                 return NotFound();
             }
-            _ticketService.DeleteTicket(id);
+            await _ticketService.DeleteTicketAsync(id);
 
             return NoContent();
         }

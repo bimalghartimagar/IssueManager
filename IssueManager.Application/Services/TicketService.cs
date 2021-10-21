@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using IssueManager.Application.Dtos;
 using IssueManager.Application.Extensions;
 using IssueManager.Application.Interfaces;
@@ -15,15 +16,15 @@ namespace IssueManager.Application.Services
         {
             _ticketRepository = ticketRepository;
         }
-        public IEnumerable<TicketDto> GetTickets()
+        public async Task<IEnumerable<TicketDto>> GetTicketsAsync()
         {
-            var tickets = _ticketRepository.GetItems();
+            var tickets = await _ticketRepository.GetItemsAsync();
 
             return tickets.Select(ticket => ticket.AsDto()).ToList();
         }
 
-        public TicketDto GetTicket(int id){
-            Ticket ticket = _ticketRepository.GetItem(id);
+        public async Task<TicketDto> GetTicketAsync(int id){
+            Ticket ticket = await _ticketRepository.GetItemAsync(id);
 
             if(ticket is null){
                 return null;
@@ -32,19 +33,19 @@ namespace IssueManager.Application.Services
             return ticket.AsDto();
         }
 
-        public TicketDto CreateTicket(CreateTicketDto createTicketDto)
+        public async Task<TicketDto> CreateTicketAsync(CreateTicketDto createTicketDto)
         {
             Ticket ticket = new()
             {
                 Title = createTicketDto.Title,
                 Description = createTicketDto.Description,
             };
-            return _ticketRepository.CreateItem(ticket).AsDto();
+            return (await _ticketRepository.CreateItemAsync(ticket)).AsDto();
         }
 
-        public TicketDto UpdateTicket(int id, UpdateTicketDto updateTicketDto)
+        public async Task<TicketDto> UpdateTicketAsync(int id, UpdateTicketDto updateTicketDto)
         {
-            Ticket existingTicket = _ticketRepository.GetItem(id);
+            Ticket existingTicket = await _ticketRepository.GetItemAsync(id);
 
             if(existingTicket is null){
                 return null;
@@ -55,11 +56,11 @@ namespace IssueManager.Application.Services
             existingTicket.IsDeleted = updateTicketDto.IsDeleted;
             existingTicket.UpdatedAt = DateTime.Now;
 
-            return _ticketRepository.UpdateItem(existingTicket).AsDto();
+            return (await _ticketRepository.UpdateItemAsync(existingTicket)).AsDto();
         }
 
-        public void DeleteTicket(int id) {
-            _ticketRepository.DeleteItem(id);
+        public async Task DeleteTicketAsync(int id) {
+            await _ticketRepository.DeleteItemAsync(id);
         }
     }
 }

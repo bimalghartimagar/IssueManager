@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using IssueManager.Domain.Interfaces;
 using IssueManager.Domain.Model;
 using IssueManager.Infra.Data.Context;
@@ -15,36 +16,36 @@ namespace IssueManager.Infra.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public IEnumerable<T> GetItems()
+        public async Task<IEnumerable<T>> GetItemsAsync()
         {
-            return _dbContext.Set<T>();
+            return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public T GetItem(int id)
+        public async Task<T> GetItemAsync(int id)
         {
-            return _dbContext.Set<T>().Find(id);
+            return await _dbContext.Set<T>().FindAsync(id);
         }
 
-        public T CreateItem(T item)
+        public async Task<T> CreateItemAsync(T item)
         {
-            _dbContext.Set<T>().Add(item);
-            _dbContext.SaveChanges();
+            await _dbContext.Set<T>().AddAsync(item);
+            await _dbContext.SaveChangesAsync();
             return item;
         }
 
-        public T UpdateItem(T item)
+        public async Task<T> UpdateItemAsync(T item)
         {
             _dbContext.Entry(item).State = EntityState.Modified;
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             return item;
         }
-        public void DeleteItem(int id)
+        public async Task DeleteItemAsync(int id)
         {
-            var itemToDelete = _dbContext.Set<T>().Find(id);
+            var itemToDelete = await _dbContext.Set<T>().FindAsync(id);
             if (itemToDelete is not null)
             {
                 _dbContext.Set<T>().Remove(itemToDelete);
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
         }
     }

@@ -1,13 +1,14 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using IssueManager.Application.Dtos;
 using IssueManager.Domain.Model;
 
 namespace IssueManager.Application.Interfaces{
     public interface ITicketService{
-        IEnumerable<TicketDto> GetTickets();
-        TicketDto GetTicket(int id);
-        TicketDto CreateTicket(CreateTicketDto createTicketDto);
-        TicketDto UpdateTicket(int id, UpdateTicketDto updateTicketDto);
-        void DeleteTicket(int id);
+        Task<IEnumerable<TicketDto>> GetTicketsAsync();
+        Task<TicketDto> GetTicketAsync(int id);
+        Task<TicketDto> CreateTicketAsync(CreateTicketDto createTicketDto);
+        Task<TicketDto> UpdateTicketAsync(int id, UpdateTicketDto updateTicketDto);
+        Task DeleteTicketAsync(int id);
     }
 }
