@@ -49,7 +49,7 @@
                 Status:
 
                 <span
-                class="rounded-lg text-white px-4 py-1 text-sm capitalize @Utility.GetStatusColor(ticket.Status)">@ticket.Status</span>
+                class="rounded-lg text-white px-4 py-1 text-sm capitalize @Utility.GetStatusColor(ticket.Status.Name)">@ticket.Status.Name</span>
             </div>
         </div>
         <div class="m-4 p-2 rounded shadow text-left border border-gray-400">
@@ -89,7 +89,7 @@
     {
         ticket = await TicketService.GetTicket(Id);
         CreatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.CreatedAt.ToString("o"));
-        UpdatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.UpdatedAt.ToString("o"));
+        UpdatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.UpdatedAt.HasValue?ticket.UpdatedAt.Value.ToString("o"):"");
         StateHasChanged();
     }
     public async void RestoreTicket()

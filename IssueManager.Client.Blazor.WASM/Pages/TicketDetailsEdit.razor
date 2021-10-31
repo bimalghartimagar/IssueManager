@@ -48,7 +48,7 @@
             <div>Updated At: @UpdatedProxy</div>
             <div class="flex flex-row">
                 <div class="mr-1">Status:</div>
-                <select @bind="ticket.Status" disabled="@ticket.IsDeleted"
+                <select @bind="ticket.Status.Name" disabled="@ticket.IsDeleted"
                 class="p-1 rounded border border-black">
                     @foreach (var item in StatusList)
                     {
@@ -107,7 +107,7 @@
     {
         ticket = await TicketService.GetTicket(Id);
         CreatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.CreatedAt.ToString("o"));
-        UpdatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.UpdatedAt.ToString("o"));
+        UpdatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.UpdatedAt.HasValue?ticket.UpdatedAt.Value.ToString("o"):"");
     }
 
     public async Task SaveTicket()

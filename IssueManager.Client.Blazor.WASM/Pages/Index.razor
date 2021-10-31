@@ -35,15 +35,15 @@
         FilterTickets();
         tickets.ForEach(x =>
         {
-            if (x.Status == "open")
+            if (x.Status.Name == "open")
             {
                 widgetData["open"].Count++;
             }
-            else if (x.Status == "assigned")
+            else if (x.Status.Name == "assigned")
             {
                 widgetData["assigned"].Count++;
             }
-            else if (x.Status == "closed")
+            else if (x.Status.Name == "closed")
             {
                 widgetData["closed"].Count++;
             }
@@ -69,7 +69,7 @@
         List<string> statusList = GetSelectedStatusList();
         if (statusList.Count > 0)
         {
-            FilteredTickets = tickets.Where(x => statusList.Contains(x.Status)).ToList();
+            FilteredTickets = tickets.Where(x => statusList.Contains(x.Status.Name)).ToList();
         }
         else
         {

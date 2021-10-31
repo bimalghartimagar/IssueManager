@@ -8,8 +8,8 @@
         <div class="ticket-title flex-grow text-left">@ticket.Title</div>
         <div class="ticket-date text-xs flex-grow-0 mr-2">@ticket.CreatedAt</div>
         <div
-            class="ticket-status rounded-lg text-white px-4 py-1 text-sm flex-grow-0 capitalize @Utility.GetStatusColor(@ticket.Status)">
-            @ticket.Status</div>
+            class="ticket-status rounded-lg text-white px-4 py-1 text-sm flex-grow-0 capitalize @Utility.GetStatusColor(@ticket.Status.Name)">
+            @ticket.Status.Name</div>
         <div class="ticket-link ml-2">
             <NavLink href="@($"/ticket/{ticket.Id}/edit")">
                 <button

@@ -20,7 +20,7 @@
         </div>
         <div class="flex flex-row p-4 m-4">
             <div class="mr-1">Status:</div>
-            <select @bind="ticket.Status" @bind:event="onchange" v-model="ticket.status"
+            <select @bind="status.Name" @bind:event="onchange"
                 class="p-1 rounded border border-black">
                 @foreach (var item in StatusList)
                 {
@@ -57,6 +57,7 @@
 @code {
     public int Id { get; set; }
     public Ticket ticket { get; set; } = new Ticket();
+    public Status status { get; set; } = new Status();
     public string ResponseMessage { get; set; }
     public bool IsAdding { get; set; }
     public bool IsAdded { get; set; }
@@ -87,6 +88,7 @@
             try
             {
                 ticket.CreatedAt = DateTime.Now;
+                ticket.Status = status;
                 Console.WriteLine("try");
                 ticket = await TicketService.CreateTicket(ticket);
                 Id = ticket.Id;
