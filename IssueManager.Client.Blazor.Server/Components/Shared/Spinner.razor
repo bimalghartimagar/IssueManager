@@ -1,0 +1,9 @@
+<div class="lds-ripple" @attributes="@Attributes">
+    <div></div>
+    <div></div>
+</div>
+
+@code{
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> Attributes {get; set;}
+}

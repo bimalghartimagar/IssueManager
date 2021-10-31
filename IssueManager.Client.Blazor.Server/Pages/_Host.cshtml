@@ -12,7 +12,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IssueManager.Client.Blazor.Server</title>
     <base href="~/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.min.css" rel="stylesheet" />
     <link href="IssueManager.Client.Blazor.Server.styles.css" rel="stylesheet" />
 </head>
@@ -31,5 +30,28 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+        <script type="text/javascript">
+        function getReadableDateTime(dateTimeString) {
+            let date = new Date(dateTimeString)
+            var options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+
+            return date.toLocaleDateString("en-US", options)
+        }
+
+        document.getElementById("app").addEventListener("click", (event) => {
+            let isTicket = false
+            let itr = event.target.classList.values()
+            let classNameResult = itr.next()
+            while (!classNameResult.done) {
+                if ((/^ticket/).test(classNameResult.value)) {
+                    isTicket = true
+                    break
+                }
+                classNameResult = itr.next()
+            }
+
+            DotNet.invokeMethod("IssueManager.Client.Blazor.WASM", "OnAppClick", JSON.stringify({ isTicketItem: isTicket }))
+        });
+    </script>
 </body>
 </html>

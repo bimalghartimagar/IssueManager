@@ -1,0 +1,35 @@
+@using Domain.Model
+@using IssueManager.Client.Blazor.Server.Components.Icons
+@using Util
+
+<NavLink href="@GetTicketUrl(ticket.Id)" class="hover:no-underline">
+    <div
+        class="ticket-item px-2 py-4 m-2 border border-indigo-500 rounded-md flex flex-row justify-between items-center cursor-pointer hover:bg-indigo-400 hover:text-white">
+        <div class="ticket-title flex-grow text-left">@ticket.Title</div>
+        <div class="ticket-date text-xs flex-grow-0 mr-2">@ticket.CreatedAt</div>
+        <div
+            class="ticket-status rounded-lg text-white px-4 py-1 text-sm flex-grow-0 capitalize @Utility.GetStatusColor(@ticket.Status.Name)">
+            @ticket.Status.Name</div>
+        <div class="ticket-link ml-2">
+            <NavLink href="@($"/ticket/{ticket.Id}/edit")">
+                <button
+                    class="ticket-link flex flex-row items-center float-right rounded px-2 py-1 bg-indigo-500 shadow-xl hover:shadow-none hover:bg-white hover:text-black text-white">
+                    <span class="ticket-link mr-1">
+                        <PencilAltIcon />
+                    </span>
+                    <span class="ticket-link">Edit</span>
+                </button>
+            </NavLink>
+        </div>
+    </div>
+</NavLink>
+
+@code {
+    [Parameter]
+    public Ticket ticket { get; set; }
+
+    public string GetTicketUrl(int id)
+    {
+        return $"ticket/{id}";
+    }
+}

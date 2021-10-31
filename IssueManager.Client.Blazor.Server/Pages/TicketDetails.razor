@@ -1,0 +1,105 @@
+@page "/ticket/{id:int}"
+@using Domain.Model
+@using ThirdParty.Api.Interface
+@using Util
+@using IssueManager.Client.Blazor.Server.Components.Icons
+@using IssueManager.Client.Blazor.Server.Components.Modal
+
+@inject ITicketService TicketService
+@inject IJSRuntime JS
+
+@if (ticket != null)
+{
+    <div class="rounded shadow mt-8 pb-1 border border-indigo-400">
+        <div
+        class="flex items-center justify-between w-full text-left p-4 text-xl shadow text-white @(ticket.IsDeleted? "bg-red-500" : "bg-indigo-400")">
+            Details of
+            ticket #@Id
+            <div class="bg-red-500 p-2 rounded @(ticket.IsDeleted?"":"hidden")">This ticket is deleted.</div>
+
+            <Modal class="@(!ticket.IsDeleted?"":"hidden")" Approve="DeleteTicket">
+                <ButtonFragment>
+                    <button
+                    class="flex flex-row items-center float-right rounded px-2 py-1 bg-red-500 shadow-xl hover:shadow-none text-white hover:bg-red-600">
+                        <span class="mr-1">
+                            <TrashIcon />
+                        </span>
+                        <span>Delete</span>
+                    </button>
+                </ButtonFragment>
+                <TitleFragment>Delete ticket</TitleFragment>
+                <BodyFragment>Are you sure you want to delete the ticket?</BodyFragment>
+            </Modal>
+
+
+            <button @onclick="RestoreTicket"
+            class="flex flex-row items-center float-right rounded px-2 py-1 bg-green-500 shadow-xl hover:shadow-none text-white hover:bg-green-600 @(ticket.IsDeleted?"":"hidden")">
+                <span class="mr-1">
+                    <RefreshIcon />
+                </span>
+                <span>Restore</span>
+            </button>
+
+        </div>
+
+        <div class=" grid grid-cols-3 gap-4 shadow p-3">
+            <div>Created At: @CreatedProxy</div>
+            <div>Updated At: @UpdatedProxy</div>
+            <div>
+                Status:
+
+                <span
+                class="rounded-lg text-white px-4 py-1 text-sm capitalize @Utility.GetStatusColor(ticket.Status.Name)">@ticket.Status.Name</span>
+            </div>
+        </div>
+        <div class="m-4 p-2 rounded shadow text-left border border-gray-400">
+            <div class="p-4 font-semibold text-xl bg-gray-400">@ticket.Title</div>
+            <div class="p-4 m-4 ">@ticket.Description</div>
+        </div>
+        <div class="text-left m-4 p-2">
+            <div>Attachments:</div>
+            <div class="flex flex-wrap gap-x-2">
+                @for (int i = 0; i < ticket.Attachments.Count; i++)
+                {
+
+                    <img src="@ticket.Attachments[i].Path" class="h-40 w-40 p-1 rounded shadow-lg border border-gray-400" />
+                }
+
+            </div>
+
+        </div>
+    </div>
+
+}
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Ticket ticket { get; set; } = null;
+    public string CreatedProxy { get; set; }
+    public string UpdatedProxy { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await ProcessTicket();
+    }
+
+    public async Task ProcessTicket()
+    {
+        ticket = await TicketService.GetTicket(Id);
+        CreatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.CreatedAt.ToString("o"));
+        UpdatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.UpdatedAt.HasValue?ticket.UpdatedAt.Value.ToString("o"):"");
+        StateHasChanged();
+    }
+    public async void RestoreTicket()
+    {
+        await TicketService.RestoreTicket(Id);
+        await ProcessTicket();
+    }
+    public async void DeleteTicket()
+    {
+        await TicketService.DeleteTicket(Id);
+        await ProcessTicket();
+    }
+}

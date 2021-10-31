@@ -1,0 +1,44 @@
+@using IssueManager.Client.Blazor.Server.Components.Icons
+
+<div @onclick="ToggleModal" @attributes="Attributes">
+    @ButtonFragment
+</div>
+<div class="modal absolute top-1/2 left-1/2 @(IsModalOpen?"":"hidden")">
+    <div class="modal-title bg-indigo-500 p-2 text-white text-lg">
+        @TitleFragment
+    </div>
+    <div class="modal-body bg-white p-2 text-lg text-black">
+        @BodyFragment
+    </div>
+    <div class="px-2 bg-white flex items-center justify-end">
+        <button class="bg-red-600 text-white p-2 px-3 rounded" @onclick="ConfirmAction">Yes</button>
+        <button class="bg-indigo-500 text-white p-2 m-2 px-3 rounded" @onclick="ToggleModal">No</button>
+    </div>
+</div>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> Attributes { get; set; }
+    [Parameter]
+    public EventCallback Approve { get; set; }
+    [Parameter]
+    public RenderFragment ButtonFragment { get; set; }
+    [Parameter]
+    public RenderFragment TitleFragment { get; set; }
+    [Parameter]
+    public RenderFragment BodyFragment { get; set; }
+
+    private bool IsModalOpen { get; set; } = false;
+
+    public void ToggleModal()
+    {
+        IsModalOpen = !IsModalOpen;
+    }
+
+    public void ConfirmAction()
+    {
+        Approve.InvokeAsync();
+        ToggleModal();
+        StateHasChanged();
+    }
+}

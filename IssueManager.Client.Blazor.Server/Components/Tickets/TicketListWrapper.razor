@@ -1,0 +1,16 @@
+@using Domain.Model
+
+<div class="mt-8 text-xl font-bold text-left p-2 mb-1" style="@(tickets.Count<=0?"display: none":"")">Tickets
+    <NavLink href="/ticket/create">
+        <button class="bg-indigo-500 text-white px-2 py-1 rounded float-right">Create Ticket</button>
+    </NavLink>
+</div>
+<div class="overflow-y-auto h-96 border border-gray-200 shadow bg-white rounded p-2"
+    style="@(tickets.Count<=0?"display: none":"")">
+    <TicketList tickets="@tickets" />
+</div>
+
+@code {
+    [Parameter]
+    public List<Ticket> tickets { get; set; }
+}

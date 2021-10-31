@@ -1,7 +1,79 @@
-@page "/"
+﻿@page "/"
+@using Domain.Model
+@using IssueManager.Client.Blazor.Server.Components.Widgets
+@using IssueManager.Client.Blazor.Server.Components.Tickets
+@using IssueManager.Client.Blazor.Server.Components.Shared
+@using ThirdParty.Api.Interface
+@inject ITicketService TicketFetchService
 
-<h1>Hello, world!</h1>
+<WidgetList Data="@widgetData" FilterTickets="FilterTickets" />
+<Spinner style="@(!IsLoading?"display: none":"")" />
+<TicketListWrapper tickets="@FilteredTickets" />
 
-Welcome to your new app.
+@code {
+    public bool IsLoading { get; set; }
+    public List<Ticket> tickets = new List<Ticket>();
+    public List<Ticket> FilteredTickets = new List<Ticket>();
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    public record TrackingData
+    {
+        public int Count { get; set; }
+        public bool Selected { get; set; }
+    }
+
+    public static Dictionary<string, TrackingData> widgetData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        widgetData = new Dictionary<string, TrackingData>(){
+{ "open", new TrackingData(){ Count = 0, Selected = false}},
+{ "assigned", new TrackingData(){ Count = 0, Selected = false}},
+{ "closed", new TrackingData(){ Count = 0, Selected = false}}
+};
+        IsLoading = true;
+        tickets = await TicketFetchService.GetTickets();
+        FilterTickets();
+        tickets.ForEach(x =>
+        {
+            if (x.Status.Name == "open")
+            {
+                widgetData["open"].Count++;
+            }
+            else if (x.Status.Name == "assigned")
+            {
+                widgetData["assigned"].Count++;
+            }
+            else if (x.Status.Name == "closed")
+            {
+                widgetData["closed"].Count++;
+            }
+        });
+        IsLoading = false;
+    }
+
+    public List<string> GetSelectedStatusList()
+    {
+        List<string> statuses = new List<string>();
+        foreach (var item in widgetData)
+        {
+            if (item.Value.Selected)
+            {
+                statuses.Add(item.Key);
+            }
+        }
+        return statuses;
+    }
+
+    public void FilterTickets()
+    {
+        List<string> statusList = GetSelectedStatusList();
+        if (statusList.Count > 0)
+        {
+            FilteredTickets = tickets.Where(x => statusList.Contains(x.Status.Name)).ToList();
+        }
+        else
+        {
+            FilteredTickets = tickets;
+        }
+    }
+}

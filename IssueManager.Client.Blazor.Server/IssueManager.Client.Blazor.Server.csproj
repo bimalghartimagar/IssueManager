@@ -1,4 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="..\IssueManager.ThirdParty.Api\IssueManager.ThirdParty.Api.csproj" />
+  </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="yarn server-buildcss --cwd ../" />
   </Target>

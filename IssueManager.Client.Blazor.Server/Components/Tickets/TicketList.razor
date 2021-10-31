@@ -1,0 +1,10 @@
+@using Domain.Model
+@for (int i = 0; i < tickets.Count; i++)
+{
+    <TicketListItem ticket="@tickets[i]" />
+}
+
+@code {
+    [Parameter]
+    public List<Ticket> tickets { get; set; }
+}

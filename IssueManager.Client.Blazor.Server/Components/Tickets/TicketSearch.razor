@@ -1,0 +1,92 @@
+@using Domain.Model
+@using ThirdParty.Api.Interface
+@using System.Text.Json
+
+@inject ITicketService TicketService
+
+<div>
+    <input @bind="SearchText" @bind:event="oninput" @onkeyup="ProcessSearch"
+        class="p-3 w-full border border-gray-500 rounded-lg" type="text" placeholder="Search" @onmouseover="SetMouseIn"
+        @onmouseout="SetMouseOut" />
+    <div class="z-10 shadow-2xl bg-white absolute rounded p-3 border-indigo-500 border"
+        style="@(ShowSearchResult?"":"display: none")" @onmouseover="SetMouseIn" @onmouseout="SetMouseOut">
+        <div class="text-xl font-bold text-left p-2">Ticket search list for <span
+                class="text-indigo-500">@SearchText</span></div>
+
+        <div style="@(SearchResult.Count > 0?"":"display: none")" class="overflow-y-auto h-96">
+            <TicketList tickets="@SearchResult" />
+        </div>
+        <span class="text-xl">
+            @SearchingText
+        </span>
+    </div>
+</div>
+
+@code {
+    private string SearchText { get; set; } = string.Empty;
+    private string SearchingText { get; set; } = "Searching...";
+    private static bool ShowSearchResult { get; set; } = false;
+    private List<Ticket> SearchResult = new List<Ticket>();
+    public static bool IsMouseIn { get; set; }
+
+    [JSInvokable]
+    public static void OnAppClick(string value)
+    {
+        JsonDocument IsTicketObj = System.Text.Json.JsonSerializer.Deserialize<JsonDocument>(value);
+        bool IsTicketClicked = IsTicketObj.RootElement.GetProperty("isTicketItem").GetBoolean();
+
+        if (!IsMouseIn || (IsMouseIn && IsTicketClicked))
+        {
+            ShowSearchResult = false;
+        }
+        else if (IsMouseIn)
+        {
+            ShowSearchResult = true;
+        }
+    }
+
+    public void SetMouseIn()
+    {
+        IsMouseIn = true;
+    }
+
+    public void SetMouseOut()
+    {
+        IsMouseIn = false;
+    }
+
+    public void HideSearchResult()
+    {
+        if (SearchText.Trim().Length == 0)
+        {
+            ShowSearchResult = false;
+        }
+        else
+        {
+            ShowSearchResult = true;
+        }
+    }
+    public async Task ProcessSearch(KeyboardEventArgs args)
+    {
+        if (args.Key.Equals("Enter"))
+        {
+            SearchResult = new List<Ticket>();
+            SearchingText = "Searching...";
+            HideSearchResult();
+            SearchResult = await TicketService.SearchTickets(SearchText);
+            if (SearchResult.Count == 0)
+            {
+                SearchingText = "No results found";
+            }
+            else
+            {
+                SearchingText = $"{SearchResult.Count} results found";
+            }
+        }
+        else if (args.Key.Equals("Delete") || args.Key.Equals("Backspace"))
+        {
+            HideSearchResult();
+        }
+
+    }
+}
