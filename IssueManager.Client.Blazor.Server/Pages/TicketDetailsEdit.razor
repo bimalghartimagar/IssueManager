@@ -98,16 +98,20 @@
 {
 "Open", "Assigned", "Closed"
 };
-    protected override async Task OnInitializedAsync()
-    {
-        await ProcessTicket();
-    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender){
+        
+        if(firstRender){
+            await ProcessTicket();
+        }
+    } 
 
     public async Task ProcessTicket()
     {
         ticket = await TicketService.GetTicket(Id);
         CreatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.CreatedAt.ToString("o"));
         UpdatedProxy = await JS.InvokeAsync<string>("getReadableDateTime", ticket.UpdatedAt.HasValue?ticket.UpdatedAt.Value.ToString("o"):"");
+        StateHasChanged();
     }
 
     public async Task SaveTicket()

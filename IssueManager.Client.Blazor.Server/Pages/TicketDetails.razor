@@ -80,10 +80,12 @@
     private Ticket ticket { get; set; } = null;
     public string CreatedProxy { get; set; }
     public string UpdatedProxy { get; set; }
-    protected override async Task OnInitializedAsync()
-    {
-        await ProcessTicket();
-    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender){
+        if(firstRender){
+            await ProcessTicket();
+        }
+    } 
 
     public async Task ProcessTicket()
     {
