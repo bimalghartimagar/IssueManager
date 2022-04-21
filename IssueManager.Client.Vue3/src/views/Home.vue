@@ -29,17 +29,17 @@ let filterList = computed(() => {
     if (selectedData.value.length === 0) {
         return ticketList.value
     }
-    return ticketList.value.filter(x => selectedData.value.includes(x.status))
+    return ticketList.value.filter(x => selectedData.value.includes(x.status.name))
 })
 
 onMounted(async () => {
     ticketList.value = await service.getTickets().then(response => response.json())
     ticketList.value.reduce((acc, item) => {
-        if (item.status === "open") {
+        if (item.status.name === "open") {
             data.value.open.count++
-        } else if (item.status === "assigned") {
+        } else if (item.status.name === "assigned") {
             data.value.assigned.count++
-        } else if (item.status === "closed") {
+        } else if (item.status.name === "closed") {
             data.value.closed.count++
         }
     }, data)

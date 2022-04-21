@@ -1,10 +1,10 @@
 export default {
     getStatusColor: (status) => {
-        if (status === "open") {
+        if (status == null || status == undefined || !Object.keys(status).includes('name') || status.name === "open") {
             return "bg-yellow-500 font-semibold"
-        } else if (status === "assigned") {
+        } else if (status.name === "assigned") {
             return "bg-green-500 font-semibold"
-        } else if (status === "closed") {
+        } else if (status.name === "closed") {
             return "bg-red-500 font-semibold"
         }
     },

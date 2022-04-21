@@ -15,7 +15,7 @@
             </div>
             <div class="flex flex-row p-4 m-4">
                 <div class="mr-1">Status:</div>
-                <select v-model="ticket.status" class="p-1 rounded border border-black">
+                <select v-model="ticket.status.name" class="p-1 rounded border border-black">
                     <option
                         v-for="data in StatusData"
                         :value="data.value"
@@ -82,7 +82,9 @@ let router = useRouter()
 let ticket = ref({
     title: "",
     description: "",
-    status: "open"
+    status: {
+        name: "open"
+    }
 })
 
 let responseMsg = ref("")

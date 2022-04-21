@@ -10,7 +10,7 @@
             <div
                 class="ticket-status rounded-lg text-white px-4 py-1 text-sm flex-grow-0 capitalize"
                 :class="util.getStatusColor(ticket.status)"
-            >{{ ticket.status }}</div>
+            >{{ ticket.status.name }}</div>
             <div class="ticket-link ml-2">
                 <router-link :to="`/ticket/${ticket.id}/edit`">
                     <button

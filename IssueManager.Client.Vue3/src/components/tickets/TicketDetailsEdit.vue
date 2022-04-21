@@ -58,7 +58,7 @@
                 <div class="mr-1">Status:</div>
                 <select
                     :disabled="ticket.isDeleted"
-                    v-model="ticket.status"
+                    v-model="ticket.status.name"
                     class="p-1 rounded border border-black"
                 >
                     <option
@@ -136,6 +136,9 @@ watch(() => props.id, async (val, prevVal) => {
 async function fetchTicketData() {
     isUpdating.value = true
     ticket.value = await service.getTicket(props.id).then(response => response.json()).finally(() => isUpdating.value = false)
+    if(typeof ticket.value.status === 'string'){
+        ticket.value.status = { name: ticket.value.status};
+    }
 }
 
 onMounted(async () => {

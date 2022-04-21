@@ -39,7 +39,7 @@
                 <span
                     class="rounded-lg text-white px-4 py-1 text-sm capitalize"
                     :class="util.getStatusColor(ticket.status)"
-                >{{ ticket.status }}</span>
+                >{{ ticket.status?.name }}</span>
             </div>
         </div>
         <div class="m-4 p-2 rounded shadow text-left border border-gray-400">
