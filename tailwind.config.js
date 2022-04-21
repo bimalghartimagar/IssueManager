@@ -5,6 +5,7 @@ module.exports = {
     "IssueManager.Client.Blazor.WASM/**/*.cs",
     "IssueManager.Client.Blazor.Server/**/*.html",
     "IssueManager.Client.Blazor.Server/**/*.razor",
+    "IssueManager.Client.Blazor.Server/**/*.cs",
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
