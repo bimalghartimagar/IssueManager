@@ -10,7 +10,7 @@ namespace IssueManager.Database.Migration
         {
             var connectionString =
     args.FirstOrDefault()
-    ?? "Server=localhost;Database=IssueManager;User Id=sa;Password=;";
+    ?? "Server=localhost,8888;Database=IssueManager;User Id=sa;Password=Password@977;";
 EnsureDatabase.For.SqlDatabase(connectionString);
 
             var upgrader =

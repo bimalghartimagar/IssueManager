@@ -1,0 +1,37 @@
+###
+
+GET https://localhost:5001/health-check
+
+###
+
+GET https://localhost:5001/tickets
+
+###
+
+GET https://localhost:5001/tickets/10
+
+###
+
+POST https://localhost:5001/tickets
+content-type: application/json
+
+{
+    "description": "10 sample test description full 10",
+    "title": "issue 10"
+}
+
+###
+
+PUT https://localhost:5001/tickets/8
+content-type: application/json
+
+{
+    "title": "issue eight",
+    "description": "eight sample test description full eight"
+}
+
+###
+
+DELETE https://localhost:5001/tickets/2
+
+###

@@ -41,6 +41,7 @@ namespace IssueManager.WebApi
             {
                 options.UseSqlServer(Configuration.GetConnectionString("IssueManagerConnection"));
             });
+            services.AddHealthChecks();
             RegisterServices(services);
         }
 
@@ -63,6 +64,7 @@ namespace IssueManager.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health-check");
             });
         }
 

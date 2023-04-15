@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  api:
+    build: 
+      context: ./
+      dockerfile: IssueManager.WebApi/Dockerfile
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./IssueManager.WebApi/:/src/IssueManager.WebApi
+  
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "8888:1433"
+    volumes:
+      - issue-manager-db-vol:/data/db
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: Password@977
+      MSSQL_PID: Express
+    
+volumes:
+  issue-manager-db-vol:

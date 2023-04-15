@@ -1,0 +1,6 @@
+{
+    "dotnet-test-explorer.testProjectPath": "**/*Tests.csproj",
+    "omnisharp.defaultLaunchSolution": "IssueManager.sln",
+    "omnisharp.enableImportCompletion": true,
+    "omnisharp.enableRoslynAnalyzers": true
+}
